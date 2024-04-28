@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -13,6 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $products = Product::all();
         return response()->json(['message' => 'Display all products']);
     }
 
@@ -21,6 +22,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $product = Product::create($request->all());
         return response()->json(['message' => 'Product Created Succesfully']);
     }
 
@@ -29,6 +31,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
+        $product = Product::findOrFail($id);
         return response()->json(['message' => 'Display product with ID:' . $id ]);
     }
 
@@ -37,6 +40,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $product = Product::findOrFail($id); $product->update($request->all());
         return response()->json(['message' => 'Product with ID:' . $id . 'updated successfully']);
     }
 
@@ -45,6 +49,7 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+        $product = Product::findOrFail($id); $product->delete();
         return response()->json(['message' => 'Product with ID:' . $id . 'deleted successfully']);
     }
 

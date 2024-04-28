@@ -20,11 +20,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//TASK 1
 Route::apiResource('products', ProductController::class);
+Route::post('products/upload/local', [ProductController::class, 'uploadToLocal'])->name('upload.local');
+Route::post('products/upload/public', [ProductController::class, 'uploadToPublic'])->name('upload.public');
 
 
-
-Route::post('/get', function () {
+//TASK 3
+Route::post('/hello', function () {
     return response()->json(['message' => 'Product Stored']);
 })->middleware(ProductAccessMiddleware::class); 
 
@@ -36,4 +39,5 @@ Route::delete('/delete/{id}', function ($id) {
     return response()->json(['message' => 'Existing Product $ID deleted']);
 })->middleware(ProductAccessMiddleware::class);
 
-
+Route::post('products/upload/local', [ProductController::class, 'uploadImageLocal'])->middleware('product.access');
+Route::post('products/upload/public', [ProductController::class, 'uploadImagePublic'])->middleware('product.access');
